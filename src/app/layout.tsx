@@ -11,8 +11,15 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+// Safe metadataBase URL parsing
+const getBaseUrl = () => {
+  const url = process.env.NEXT_PUBLIC_APP_URL || "https://postflow.app";
+  if (url.startsWith("http")) return new URL(url);
+  return new URL(`https://${url}`);
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://postflow.app"),
+  metadataBase: getBaseUrl(),
   title: {
     default: "PostFlow — Social Media Automation Platform",
     template: "%s | PostFlow",
