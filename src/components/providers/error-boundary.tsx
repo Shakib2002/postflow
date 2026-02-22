@@ -21,11 +21,9 @@ function ErrorFallback({ error, resetError }: FallbackProps) {
                 <p className="text-sm text-muted-foreground max-w-sm">
                     An unexpected error occurred. Our team has been notified automatically.
                 </p>
-                {process.env.NODE_ENV === "development" && (
-                    <p className="text-xs text-destructive font-mono mt-2 max-w-md truncate">
-                        {error.message}
-                    </p>
-                )}
+                <p className="text-xs text-destructive font-mono mt-2 max-w-md truncate">
+                    {error.message}
+                </p>
             </div>
             <Button variant="outline" size="sm" className="gap-2" onClick={resetError}>
                 <RefreshCw className="w-3.5 h-3.5" />
