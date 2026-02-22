@@ -1,0 +1,20 @@
+{
+    "crons": [
+        {
+            "path": "/api/cron/publish-scheduled",
+            "schedule": "* * * * *"
+        },
+        {
+            "path": "/api/cron/retry-failed",
+            "schedule": "*/15 * * * *"
+        }
+    ],
+    "functions": {
+        "src/app/api/cron/publish-scheduled/route.ts": {
+            "maxDuration": 60
+        },
+        "src/app/api/publish/route.ts": {
+            "maxDuration": 60
+        }
+    }
+}
