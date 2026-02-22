@@ -1,35 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy-init Resend to avoid build-time crashes if key is missing
+const getResend = () => {
+  const key = process.env.RESEND_API_KEY;
+  if (!key && process.env.NODE_ENV === "production") {
+    console.warn("RESEND_API_KEY is missing in production.");
+  }
+  return new Resend(key || "re_dummy_key");
+};
 
 // POST /api/email/invite — send team invite email
 export async function POST(req: NextRequest) {
-    const { to, inviteUrl, role, inviterEmail } = await req.json();
+  const { to, inviteUrl, role, inviterEmail } = await req.json();
 
-    if (!to || !inviteUrl) {
-        return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
-    }
+  if (!to || !inviteUrl) {
+    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+  }
 
-    const roleLabel = role === "admin" ? "Admin"
-        : role === "viewer" ? "Viewer"
-            : "Member";
+  const roleLabel = role === "admin" ? "Admin"
+    : role === "viewer" ? "Viewer"
+      : "Member";
 
-    const roleColor = role === "admin" ? "#7c3aed"
-        : role === "viewer" ? "#6b7280"
-            : "#2563eb";
+  const roleColor = role === "admin" ? "#7c3aed"
+    : role === "viewer" ? "#6b7280"
+      : "#2563eb";
 
-    const roleDescription = role === "admin"
-        ? "Full access to manage posts, team members, and workspace settings."
-        : role === "viewer"
-            ? "Read-only access to view posts, analytics, and leads."
-            : "Can create, schedule, and publish posts.";
+  const roleDescription = role === "admin"
+    ? "Full access to manage posts, team members, and workspace settings."
+    : role === "viewer"
+      ? "Read-only access to view posts, analytics, and leads."
+      : "Can create, schedule, and publish posts.";
 
-    const { error } = await resend.emails.send({
-        from: "PostFlow <noreply@postflow.app>",
-        to,
-        subject: `You've been invited to join a PostFlow workspace`,
-        html: `
+  const resend = getResend();
+  const { error } = await resend.emails.send({
+    from: "PostFlow <noreply@postflow.app>",
+    to,
+    subject: `You've been invited to join a PostFlow workspace`,
+    html: `
         <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0f; color: #f4f4f5; border-radius: 16px; overflow: hidden; border: 1px solid #1e1e2e;">
           
           <!-- Header -->
@@ -91,12 +99,12 @@ export async function POST(req: NextRequest) {
 
         </div>
         `,
-    });
+  });
 
-    if (error) {
-        console.warn("[Email/Invite] Resend error:", error.message);
-        return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+  if (error) {
+    console.warn("[Email/Invite] Resend error:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 
-    return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true });
 }

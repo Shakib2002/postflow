@@ -2,45 +2,53 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { createClient } from "@/lib/supabase/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy-init Resend to avoid build-time crashes if key is missing
+const getResend = () => {
+  const key = process.env.RESEND_API_KEY;
+  if (!key && process.env.NODE_ENV === "production") {
+    console.warn("RESEND_API_KEY is missing in production.");
+  }
+  return new Resend(key || "re_dummy_key");
+};
 
 // POST /api/email/approval — send approval request email
 export async function POST(req: NextRequest) {
-    const body = await req.json();
-    const { approval_id, token } = body;
+  const body = await req.json();
+  const { approval_id, token } = body;
 
-    const supabase = await createClient();
+  const supabase = await createClient();
 
-    const { data: approval } = await supabase
-        .from("approvals")
-        .select(`*, post:posts(content, scheduled_at, workspace_id)`)
-        .eq("id", approval_id)
-        .single();
+  const { data: approval } = await supabase
+    .from("approvals")
+    .select(`*, post:posts(content, scheduled_at, workspace_id)`)
+    .eq("id", approval_id)
+    .single();
 
-    if (!approval) return NextResponse.json({ error: "Approval not found" }, { status: 404 });
+  if (!approval) return NextResponse.json({ error: "Approval not found" }, { status: 404 });
 
-    // Get workspace owner email
-    const { data: workspace } = await supabase
-        .from("workspaces")
-        .select("name, owner_id")
-        .eq("id", approval.post.workspace_id)
-        .single();
+  // Get workspace owner email
+  const { data: workspace } = await supabase
+    .from("workspaces")
+    .select("name, owner_id")
+    .eq("id", approval.post.workspace_id)
+    .single();
 
-    if (!workspace) return NextResponse.json({ error: "Workspace not found" }, { status: 404 });
+  if (!workspace) return NextResponse.json({ error: "Workspace not found" }, { status: 404 });
 
-    const { data: ownerData } = await supabase.auth.admin.getUserById(workspace.owner_id);
-    const ownerEmail = ownerData?.user?.email;
-    if (!ownerEmail) return NextResponse.json({ error: "Owner email not found" }, { status: 404 });
+  const { data: ownerData } = await supabase.auth.admin.getUserById(workspace.owner_id);
+  const ownerEmail = ownerData?.user?.email;
+  if (!ownerEmail) return NextResponse.json({ error: "Owner email not found" }, { status: 404 });
 
-    const approveUrl = `${process.env.NEXT_PUBLIC_APP_URL}/approve/${token}?action=approve`;
-    const rejectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/approve/${token}?action=reject`;
-    const previewContent = approval.post.content.substring(0, 200);
+  const approveUrl = `${process.env.NEXT_PUBLIC_APP_URL}/approve/${token}?action=approve`;
+  const rejectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/approve/${token}?action=reject`;
+  const previewContent = approval.post.content.substring(0, 200);
 
-    const { error } = await resend.emails.send({
-        from: "PostFlow <noreply@postflow.app>",
-        to: ownerEmail,
-        subject: `✅ Post Approval Required — ${workspace.name}`,
-        html: `
+  const resend = getResend();
+  const { error } = await resend.emails.send({
+    from: "PostFlow <noreply@postflow.app>",
+    to: ownerEmail,
+    subject: `✅ Post Approval Required — ${workspace.name}`,
+    html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #0f0f0f; color: #fff; border-radius: 12px; overflow: hidden;">
         <div style="background: linear-gradient(135deg, #7c3aed, #6d28d9); padding: 32px; text-align: center;">
           <h1 style="margin: 0; font-size: 24px;">⚡ PostFlow</h1>
@@ -60,8 +68,8 @@ export async function POST(req: NextRequest) {
         </div>
       </div>
     `,
-    });
+  });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ success: true });
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ success: true });
 }

@@ -2,11 +2,11 @@
     "crons": [
         {
             "path": "/api/cron/publish-scheduled",
-            "schedule": "* * * * *"
+            "schedule": "0 * * * *"
         },
         {
             "path": "/api/cron/retry-failed",
-            "schedule": "*/15 * * * *"
+            "schedule": "0 1 * * *"
         }
     ],
     "functions": {
