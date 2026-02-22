@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
+// Trigger deployment: 2026-02-23
 const nextConfig: NextConfig = {
   /* config options here */
 };
