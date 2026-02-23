@@ -34,12 +34,12 @@ export default async function RootPage() {
             <p>SUPABASE_ANON_KEY: {process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? "✅ Present" : "❌ MISSING"}</p>
             <p>APP_URL: {process.env.NEXT_PUBLIC_APP_URL ? "✅ Present" : "❌ MISSING"}</p>
           </div>
-          <button
-            onClick={() => window.location.reload()}
-            className="w-full py-2 bg-red-500 text-black font-bold rounded hover:bg-red-600 transition-colors"
+          <a
+            href="/"
+            className="block text-center w-full py-2 bg-red-500 text-black font-bold rounded hover:bg-red-600 transition-colors"
           >
             Refresh Page
-          </button>
+          </a>
         </div>
       </div>
     );
