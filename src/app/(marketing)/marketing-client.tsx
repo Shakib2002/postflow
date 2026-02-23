@@ -142,89 +142,7 @@ function ParticleGrid() {
     );
 }
 
-/* ─── Sticky Header ─── */
-function Header() {
-    const [scrolled, setScrolled] = useState(false);
-    const [mobileOpen, setMobileOpen] = useState(false);
 
-    useEffect(() => {
-        const handler = () => setScrolled(window.scrollY > 20);
-        window.addEventListener("scroll", handler);
-        return () => window.removeEventListener("scroll", handler);
-    }, []);
-
-    return (
-        <motion.header
-            initial={{ y: -80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "py-3 bg-black/60 backdrop-blur-xl border-b border-white/8 shadow-2xl shadow-black/50" : "py-5 bg-transparent"}`}
-        >
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2.5 group">
-                        <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-purple-700 flex items-center justify-center shadow-lg shadow-violet-500/30 group-hover:shadow-violet-500/50 transition-shadow">
-                            <Zap className="w-5 h-5 text-white" />
-                            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent" />
-                        </div>
-                        <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-                            PostFlow
-                        </span>
-                    </Link>
-
-                    {/* Desktop Nav */}
-                    <nav className="hidden md:flex items-center gap-1">
-                        {navLinks.map((link) => (
-                            <Link key={link} href={`#${link.toLowerCase().replace(" ", "-")}`}
-                                className="px-4 py-2 text-sm font-medium text-white/60 hover:text-white rounded-lg hover:bg-white/5 transition-all duration-200">
-                                {link}
-                            </Link>
-                        ))}
-                    </nav>
-
-                    {/* CTA */}
-                    <div className="hidden md:flex items-center gap-3">
-                        <Link href="/login">
-                            <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/10">Sign In</Button>
-                        </Link>
-                        <Link href="/signup">
-                            <Button size="sm" className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white font-semibold shadow-lg shadow-violet-500/25 rounded-full px-5 transition-all hover:scale-105">
-                                Get Started Free <Rocket className="ml-1.5 w-3.5 h-3.5" />
-                            </Button>
-                        </Link>
-                    </div>
-
-                    {/* Mobile Hamburger */}
-                    <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10 transition">
-                        {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                    </button>
-                </div>
-
-                {/* Mobile Menu */}
-                <AnimatePresence>
-                    {mobileOpen && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }}
-                            className="md:hidden overflow-hidden mt-4 pb-4 border-t border-white/8">
-                            <div className="pt-4 flex flex-col gap-1">
-                                {navLinks.map((link) => (
-                                    <Link key={link} href={`#${link.toLowerCase().replace(" ", "-")}`} onClick={() => setMobileOpen(false)}
-                                        className="px-3 py-2.5 text-sm text-white/70 hover:text-white rounded-lg hover:bg-white/5 transition">
-                                        {link}
-                                    </Link>
-                                ))}
-                                <div className="flex gap-2 pt-3">
-                                    <Link href="/login" className="flex-1"><Button variant="outline" size="sm" className="w-full border-white/10 text-white/70">Sign In</Button></Link>
-                                    <Link href="/signup" className="flex-1"><Button size="sm" className="w-full bg-gradient-to-r from-violet-600 to-purple-600 text-white">Start Free</Button></Link>
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
-        </motion.header>
-    );
-}
 
 /* ─── Dashboard Mock ─── */
 function DashboardMock() {
@@ -320,7 +238,7 @@ export default function MarketingClient() {
     return (
         <div className="bg-[#06060f] text-white overflow-x-hidden selection:bg-violet-500/30">
 
-            <Header />
+
 
             {/* ── HERO ── */}
             <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -666,25 +584,7 @@ export default function MarketingClient() {
                 </div>
             </section>
 
-            {/* ── FOOTER ── */}
-            <footer className="border-t border-white/5 py-12">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                        <div className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-purple-700 flex items-center justify-center">
-                                <Zap className="w-4 h-4 text-white" />
-                            </div>
-                            <span className="font-black text-white">PostFlow</span>
-                        </div>
-                        <div className="flex items-center gap-6 text-sm text-white/30">
-                            {["Privacy", "Terms", "Blog", "Contact"].map(l => (
-                                <Link key={l} href={`/${l.toLowerCase()}`} className="hover:text-white/60 transition-colors">{l}</Link>
-                            ))}
-                        </div>
-                        <p className="text-sm text-white/20">© 2026 PostFlow. All rights reserved.</p>
-                    </div>
-                </div>
-            </footer>
+
         </div>
     );
 }
