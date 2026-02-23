@@ -1,0 +1,48 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - link "PostFlow" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e12]: PostFlow
+      - heading "Welcome back" [level=1] [ref=e13]
+      - paragraph [ref=e14]: Sign in to your account to continue
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]: Email address
+          - generic [ref=e20]:
+            - img [ref=e21]
+            - textbox "Email address" [ref=e24]:
+              - /placeholder: you@company.com
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - generic [ref=e27]: Password
+            - link "Forgot password?" [ref=e28] [cursor=pointer]:
+              - /url: /forgot-password
+          - generic [ref=e29]:
+            - img [ref=e30]
+            - textbox "Password" [ref=e33]:
+              - /placeholder: ••••••••
+            - button [ref=e34]:
+              - img [ref=e35]
+        - button "Sign In" [ref=e38]:
+          - text: Sign In
+          - img
+      - paragraph [ref=e40]:
+        - text: Don't have an account?
+        - link "Start free trial" [ref=e41] [cursor=pointer]:
+          - /url: /signup
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e47] [cursor=pointer]:
+    - generic [ref=e50]:
+      - text: Compiling
+      - generic [ref=e51]:
+        - generic [ref=e52]: .
+        - generic [ref=e53]: .
+        - generic [ref=e54]: .
+  - alert [ref=e55]
+```

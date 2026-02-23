@@ -1,0 +1,68 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - link "PostFlow" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e12]: PostFlow
+      - heading "Start your free trial" [level=1] [ref=e13]
+      - paragraph [ref=e14]: No credit card required · 14 days free
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - img [ref=e17]
+        - text: 14-day free trial, no credit card
+      - generic [ref=e20]:
+        - img [ref=e21]
+        - text: AI caption generator included
+      - generic [ref=e24]:
+        - img [ref=e25]
+        - text: Cancel anytime, no lock-in
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]: Full name
+          - generic [ref=e33]:
+            - img [ref=e34]
+            - textbox "Full name" [ref=e37]:
+              - /placeholder: John Smith
+        - generic [ref=e38]:
+          - generic [ref=e39]: Work email
+          - generic [ref=e40]:
+            - img [ref=e41]
+            - textbox "Work email" [ref=e44]:
+              - /placeholder: you@company.com
+        - generic [ref=e45]:
+          - generic [ref=e46]: Password
+          - generic [ref=e47]:
+            - img [ref=e48]
+            - textbox "Password" [ref=e51]:
+              - /placeholder: Min. 8 characters
+            - button [ref=e52]:
+              - img [ref=e53]
+        - button "Create Free Account" [ref=e56]:
+          - text: Create Free Account
+          - img
+        - paragraph [ref=e57]:
+          - text: By signing up, you agree to our
+          - link "Terms" [ref=e58] [cursor=pointer]:
+            - /url: /terms
+          - text: and
+          - link "Privacy Policy" [ref=e59] [cursor=pointer]:
+            - /url: /privacy
+      - paragraph [ref=e60]:
+        - text: Already have an account?
+        - link "Sign in" [ref=e61] [cursor=pointer]:
+          - /url: /login
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e67] [cursor=pointer]:
+    - generic [ref=e70]:
+      - text: Compiling
+      - generic [ref=e71]:
+        - generic [ref=e72]: .
+        - generic [ref=e73]: .
+        - generic [ref=e74]: .
+  - alert [ref=e75]
+```

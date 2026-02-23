@@ -1,0 +1,40 @@
+{
+    "meta": {
+        "brand_name": "PostFlow",
+        "description": "Core design tokens for PostFlow UI implementation."
+    },
+    "colors": {
+        "primary": {
+            "DEFAULT": "#8b5cf6",
+            "hover": "#7c3aed",
+            "foreground": "#FFFFFF"
+        },
+        "secondary": {
+            "DEFAULT": "#F4F4F5",
+            "foreground": "#18181B"
+        },
+        "background": "#09090b",
+        "foreground": "#fafafa",
+        "muted": "#27272a",
+        "accent": "#27272a",
+        "destructive": "#ef4444",
+        "success": "#10b981"
+    },
+    "typography": {
+        "font_family_headings": [
+            "Inter",
+            "sans-serif"
+        ],
+        "font_family_body": [
+            "Roboto",
+            "sans-serif"
+        ],
+        "font_weight_bold": "700",
+        "font_weight_normal": "400"
+    },
+    "ui": {
+        "border_radius_default": "0.5rem",
+        "border_radius_small": "0.25rem",
+        "spacing_base_unit": "4px"
+    }
+}
