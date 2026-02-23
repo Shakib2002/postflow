@@ -26,13 +26,12 @@ export default function GlobalError({
                     </div>
                     <h1 className="text-2xl font-bold">Something went wrong</h1>
                     <p className="text-muted-foreground text-sm">
-                        An unexpected error occurred. Our team has been notified automatically.
-                        {error.digest && (
-                            <span className="block mt-1 font-mono text-xs opacity-60">
-                                Error ID: {error.digest}
-                            </span>
-                        )}
+                        An unexpected error occurred at the system level.
                     </p>
+                    <div className="bg-red-500/5 border border-red-500/10 rounded-lg p-3 text-left">
+                        <p className="text-[10px] font-bold uppercase text-red-400/60 mb-1">System Error</p>
+                        <p className="text-xs font-mono text-red-400 break-all">{error.message}</p>
+                    </div>
                     <div className="flex gap-3 justify-center">
                         <Button
                             onClick={reset}
