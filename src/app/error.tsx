@@ -36,15 +36,50 @@ export default function Error({
                 </div>
 
                 {/* Debug Info — Only visible when we need to find the cause */}
-                <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-4 text-left space-y-2 overflow-hidden animate-in slide-in-from-bottom-2 duration-700">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-destructive/60">
-                        Detailed Error Message
-                    </p>
-                    <p className="text-xs font-mono text-destructive break-all leading-normal">
-                        {error.message || "No specific error message provided."}
-                    </p>
+                <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-4 text-left space-y-4 overflow-hidden animate-in slide-in-from-bottom-2 duration-700">
+                    <div className="space-y-1">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-destructive/60">
+                            Detailed Error Message
+                        </p>
+                        <p className="text-xs font-mono text-destructive break-all leading-normal">
+                            {error.message || "No specific error message provided."}
+                        </p>
+                    </div>
+
+                    <div className="space-y-1 border-t border-destructive/10 pt-3">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
+                            Environment Health Check
+                        </p>
+                        <div className="grid grid-cols-1 gap-1 text-[10px] font-mono">
+                            <div className="flex justify-between items-center bg-black/20 p-1.5 rounded">
+                                <span className="text-muted-foreground">SUPABASE_URL</span>
+                                <span className={process.env.NEXT_PUBLIC_SUPABASE_URL ? "text-green-400" : "text-red-400"}>
+                                    {process.env.NEXT_PUBLIC_SUPABASE_URL ? "✅ CONFIGURED" : "❌ MISSING"}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-center bg-black/20 p-1.5 rounded">
+                                <span className="text-muted-foreground">SUPABASE_ANON_KEY</span>
+                                <span className={process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? "text-green-400" : "text-red-400"}>
+                                    {process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? "✅ CONFIGURED" : "❌ MISSING"}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-center bg-black/20 p-1.5 rounded">
+                                <span className="text-muted-foreground">APP_URL</span>
+                                <span className={process.env.NEXT_PUBLIC_APP_URL ? "text-green-400" : "text-red-400"}>
+                                    {process.env.NEXT_PUBLIC_APP_URL ? "✅ CONFIGURED" : "❌ MISSING"}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-center bg-black/20 p-1.5 rounded">
+                                <span className="text-muted-foreground">POSTHOG_KEY</span>
+                                <span className={process.env.NEXT_PUBLIC_POSTHOG_KEY ? "text-green-400" : "text-yellow-400"}>
+                                    {process.env.NEXT_PUBLIC_POSTHOG_KEY ? "✅ CONFIGURED" : "⚠️ OPTIONAL"}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
                     {error.digest && (
-                        <p className="text-[10px] font-mono text-muted-foreground mt-1">
+                        <p className="text-[10px] font-mono text-muted-foreground/40 mt-1">
                             Digest: {error.digest}
                         </p>
                     )}

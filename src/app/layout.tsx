@@ -13,9 +13,19 @@ const inter = Inter({
 
 // Safe metadataBase URL parsing
 const getBaseUrl = () => {
-  const url = process.env.NEXT_PUBLIC_APP_URL || "https://postflow.app";
-  if (url.startsWith("http")) return new URL(url);
-  return new URL(`https://${url}`);
+  try {
+    const url = process.env.NEXT_PUBLIC_APP_URL;
+    if (!url) return new URL("https://postflow.app");
+
+    // Handle cases where URL might not have a protocol
+    const normalizedUrl = url.includes("://") ? url : `https://${url}`;
+
+    // Attempt to parse, fallback to default if invalid
+    return new URL(normalizedUrl.trim());
+  } catch (e) {
+    console.error("Critical: metadataBase URL parsing failed", e);
+    return new URL("https://postflow.app"); // Ultimate fallback
+  }
 };
 
 export const metadata: Metadata = {
